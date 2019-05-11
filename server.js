@@ -8,6 +8,7 @@ require('./db/db')
 
 const authController = require('./controllers/authController')
 const movieController = require('./controllers/movieController')
+const groupController = require('./controllers/groupController')
 
 // middleware
 app.use(bodyParser.urlencoded({extended: false}));
@@ -33,6 +34,7 @@ app.use(session({
 
 app.use(process.env.AUTH, authController);
 app.use(process.env.MOVIES, movieController);
+app.use(process.env.GROUPS, groupController);
 
 
 
