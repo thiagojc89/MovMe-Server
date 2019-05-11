@@ -7,6 +7,7 @@ const session        = require('express-session');
 require('./db/db')
 
 const authController = require('./controllers/authController')
+const movieController = require('./controllers/movieController')
 
 // middleware
 app.use(bodyParser.urlencoded({extended: false}));
@@ -30,7 +31,9 @@ app.use(session({
 }))
 
 
-app.use('/auth', authController);
+app.use(process.env.AUTH, authController);
+app.use(process.env.MOVIES, movieController);
+
 
 
 const PORT = process.env.PORT

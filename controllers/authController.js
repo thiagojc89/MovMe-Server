@@ -4,7 +4,7 @@ const bcrypt = require('bcryptjs');
 const User = require('../models/user')
 
 
-router.get('/login', async (req,res)=>{
+router.get('/login', async (req,res, next)=>{
 	try{
 		const foundUser = await User.findOne({username:req.body.username});
 		
@@ -20,6 +20,7 @@ router.get('/login', async (req,res)=>{
 		}
 	}
 	catch{
+		next(err)
 	}
 });
 
