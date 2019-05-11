@@ -30,7 +30,7 @@ app.use(session({
 }))
 
 
-// app.use('/auth', authController);
+app.use('/auth', authController);
 
 
 const PORT = process.env.PORT
