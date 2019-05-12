@@ -6,7 +6,7 @@ const User = require('../models/user')
 
 router.get('/login', async (req,res, next)=>{
 	try{
-		const foundUser = await User.findOne({username:req.body.username});
+		const foundUser = await User.findOne({email:req.body.email});
 		
 		if (foundUser){
 			// campare the password pass into the req.body.password match with the hash password

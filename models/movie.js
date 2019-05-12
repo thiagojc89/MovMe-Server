@@ -1,10 +1,18 @@
 const mongoose = require('mongoose');
 
 const movieSchema = mongoose.Schema({
-	movieId:Number,
+	movie: [{
+		type: mongoose.Schema.Types.ObjectId,
+		ref: 'MovieCatalog'
+	}],
 	review:String,
-	group:String,
-	rate:String
+	group:[{
+		type: mongoose.Schema.Types.ObjectId,
+		ref: 'Group'
+	}],
+	rate:{
+		type: String,
+		required: true} 
 })
 
 const Movie = mongoose.model('Movie', movieSchema);
