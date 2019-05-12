@@ -6,9 +6,12 @@ const Movie = require('../models/movie')
 router.get('/', async (req,res,next)=>{
 	try{
 		const allMovies = await Movie.find()
-		res.send(allMovies)
+		res.json({
+        	status: 200,
+        	data: allMovies
+      	});
 	}
-	catch{
+	catch(err){
 		next(err)
 	}
 });
@@ -16,9 +19,12 @@ router.get('/', async (req,res,next)=>{
 router.get('/:id', async (req,res,next)=>{
 	try{
 		const foundMovie = await Movie.findById(req.params.id);
-		res.send(foundMovie)
+		res.json({
+        	status: 200,
+        	data: foundMovie
+      	});
 	}
-	catch{
+	catch(err){
 		next(err)
 	}
 });
@@ -26,11 +32,12 @@ router.get('/:id', async (req,res,next)=>{
 router.post('/new', async (req,res, next)=>{
 	try{
 		const newMovie = await Movie.create(req.body)	
-		res.send(newMovie);
-
-
+		res.json({
+        	status: 200,
+        	data: newMovie
+      	});
 	}
-	catch{
+	catch(err){
 		next(err)
 	}
 });

@@ -12,14 +12,20 @@ router.get('/login', async (req,res, next)=>{
 			// campare the password pass into the req.body.password match with the hash password
 			if(bcrypt.compareSync(req.body.password, foundUser.password)){
 
-				res.send(foundUser)
+				res.json({
+		        	status: 200,
+		        	data: foundUser
+		      	});
 			}
 			else{
-				res.send('NOPE NOPE')
+				res.json({
+		        	status: 200,
+		        	data: 'wrong password'
+		      	});
 			}
 		}
 	}
-	catch{
+	catch(err){
 		next(err)
 	}
 });
@@ -32,11 +38,13 @@ router.post('/register', async (req,res, next)=>{
 		// this line hash the password in req.body.password and assign to newUser.password
 		newUser.password = bcrypt.hashSync(req.body.password, bcrypt.genSaltSync(10))
 
-
 		const createUser = await User.create(newUser);
-		res.send(createUser)
+		res.json({
+        	status: 200,
+        	data: createUser
+      	});
 	}
-	catch{
+	catch(err){
 		next(err)
 	}
 });
@@ -54,16 +62,20 @@ router.delete('/:id', async (req,res,next)=>{
 				console.log(' same password');
 				const removedUser = await User.findByIdAndRemove(userToBeRemoved._id)
 
-				res.send(removedUser)
+				res.json({
+		        	status: 200,
+		        	data: removedUser
+		      	});
 			}
 			else{
-				console.log('not the same password');
-				res.send('NOPE NOPE Delete Router')
+				res.json({
+		        	status: 200,
+		        	data: 'not the same password'
+		      	});
 			}
 		}
 	}
-	catch{
-		console.log('oppps something wrong');
+	catch(err){
 		next(err)
 	}	
 });
