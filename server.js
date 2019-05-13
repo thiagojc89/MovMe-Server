@@ -10,9 +10,18 @@ const authController = require('./controllers/authController')
 const movieController = require('./controllers/movieController')
 const groupController = require('./controllers/groupController')
 
+// before our controllers
+app.use(session({
+  secret: process.env.SESSION_SECRET,
+  resave: false, // says only save the cookie if there has been a change to one of properties
+  saveUninitialized: false // only save when we have mutated the session,
+  //this is what should be done for logins, many laws make you do this as well
+}))
+
 // middleware
 app.use(bodyParser.urlencoded({extended: false}));
 app.use(bodyParser.json());
+
 
 // SET UP CORS AS MIDDLEWARE, SO any client can make a request to our server
 const corsOptions = {
@@ -23,15 +32,7 @@ const corsOptions = {
 app.use(cors(corsOptions));
 
 
-// before our controllers
-app.use(session({
-  secret: process.env.SESSION_SECRET,
-  resave: false, // says only save the cookie if there has been a change to one of properties
-  saveUninitialized: false // only save when we have mutated the session,
-  //this is what should be done for logins, many laws make you do this as well
-}))
-
-
+// controllers
 app.use(process.env.AUTH, authController);
 app.use(process.env.MOVIES, movieController);
 app.use(process.env.GROUPS, groupController);
