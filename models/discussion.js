@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 
-const discussionSchema = mongoose.Schema({
+const discussionSchema = new mongoose.Schema({
 	movie: [{
 		type: mongoose.Schema.Types.ObjectId,
 		ref: 'MovieCatalog'
@@ -14,7 +14,8 @@ const discussionSchema = mongoose.Schema({
 		default: 'OPEN'},
 	discussionData: {
 		type: Array, 
-		default: []}
+		default: []
+	}
 })
 
 const Discussion = mongoose.model('Discussion', discussionSchema);
