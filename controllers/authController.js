@@ -3,6 +3,8 @@ const router = express.Router();
 const bcrypt = require('bcryptjs');
 const User = require('../models/user')
 
+
+
 // I'm setting this route with POST instead of GET for a way to solve this erro msg
 // ERROR: Request with GET/HEAD method cannot have body.
  
@@ -15,6 +17,10 @@ router.post('/login', async (req,res, next)=>{
 		if (foundUser){
 			// campare the password pass into the req.body.password match with the hash password
 			if(bcrypt.compareSync(req.body.password, foundUser.password)){
+
+				req.session.logged = true;
+	    		req.session.userDbId = foundUser._id
+	    		req.session.username = foundUser.firstName
 
 				res.json({
 		        	status: 200,
@@ -43,6 +49,11 @@ router.post('/register', async (req,res, next)=>{
 		newUser.password = bcrypt.hashSync(req.body.password, bcrypt.genSaltSync(10))
 
 		const createUser = await User.create(newUser);
+
+		req.session.logged = true;
+		req.session.userDbId = createUser._id
+		req.session.username = createUser.firstName
+
 		res.json({
         	status: 200,
         	data: createUser

@@ -1,15 +1,53 @@
 const express = require('express');
 const router = express.Router();
 const Group = require('../models/group')
+const User = require('../models/user')
 const Discussion = require('../models/discussion')
+
+
+
+router.get('/:id', async (req,res, next)=>{
+	try{
+
+		// this is my get groups by userId route
+		
+
+		const foundUser = await User.findOne(req.params.id).populate('group')
+
+		res.json({
+        	status: 200,
+        	data: foundUser
+      	});
+	}
+	catch(err){
+		next(err)
+	}
+});
+
 
 
 router.post('/new', async (req,res, next)=>{
 	try{
-		const newGroup = await Group.create(req.body)	
+
+		//this route will create a new group
+		//will include the creator user id inside of the Group.userId Array
+
+		//Will look for the user and includ the group._id inside of the User.groups arrays
+
+		console.log(req.body, '=======req.body to create new group====');
+		const newGroup = await Group.create(req.body)
+
+
+		const foundUser = await User.findOne(req.body.UserId)
+		foundUser.groups.push(newGroup._id);
+		foundUser.save()	
+
 		res.json({
         	status: 200,
-        	data: newGroup
+        	data: {
+        		newGroup: newGroup,
+        		foundUser: foundUser
+        	}
       	});
 	}
 	catch(err){
