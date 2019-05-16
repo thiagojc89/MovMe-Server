@@ -8,11 +8,13 @@ const Discussion = require('../models/discussion')
 
 router.get('/:id', async (req,res, next)=>{
 	try{
-
+		console.log('HIT THIS GET ROUTE =================##########');
 		// this is my get groups by userId route
 		
+		const foundUser = await User.findById(req.params.id).populate('group')
 
-		const foundUser = await User.findOne(req.params.id).populate('group')
+		console.log(foundUser,'==================foundUser=========');
+
 
 		res.json({
         	status: 200,
@@ -39,7 +41,7 @@ router.post('/new', async (req,res, next)=>{
 
 
 		const foundUser = await User.findOne(req.body.UserId)
-		foundUser.groups.push(newGroup._id);
+		foundUser.group.push(newGroup._id);
 		foundUser.save()	
 
 		res.json({
