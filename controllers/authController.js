@@ -29,10 +29,16 @@ router.post('/login', async (req,res, next)=>{
 			}
 			else{
 				res.json({
-		        	status: 200,
-		        	data: 'wrong password'
+		        	status: 300,
+		        	data: 'login invalido'
 		      	});
 			}
+		}
+		else{
+			res.json({
+		        status: 300,
+		        data: 'invalid login'
+		    });
 		}
 	}
 	catch(err){
