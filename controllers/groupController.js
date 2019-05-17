@@ -8,13 +8,9 @@ const Discussion = require('../models/discussion')
 
 router.get('/:id', async (req,res, next)=>{
 	try{
-		console.log('HIT THIS GET ROUTE =================##########');
-		// this is my get groups by userId route
 		
+		// this is my get groups by userId route
 		const foundUser = await User.findById(req.params.id).populate('group')
-
-		console.log(foundUser,'==================foundUser=========');
-
 
 		res.json({
         	status: 200,
@@ -27,7 +23,6 @@ router.get('/:id', async (req,res, next)=>{
 });
 
 
-
 router.post('/new', async (req,res, next)=>{
 	try{
 
@@ -36,7 +31,6 @@ router.post('/new', async (req,res, next)=>{
 
 		//Will look for the user and includ the group._id inside of the User.groups arrays
 
-		console.log(req.body, '=======req.body to create new group====');
 		const newGroup = await Group.create(req.body)
 
 
@@ -120,8 +114,6 @@ router.put('/addtexttodiscussion', async (req,res, next)=>{
 
 router.put('/close', async (req,res, next)=>{
 	try{
-
-		console.log('discussion close');
 
 		const foundDiscussion = await Discussion.findById(req.body.discussionId);
 		

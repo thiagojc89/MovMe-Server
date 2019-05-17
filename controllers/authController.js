@@ -10,10 +10,8 @@ const User = require('../models/user')
  
 router.post('/login', async (req,res, next)=>{
 	try{
-		console.log('hit the auth/login route');
-		console.log(req.body);
+
 		const foundUser = await User.findOne({email:req.body.email});
-		console.log(foundUser,"==========foundUser");
 		if (foundUser){
 			// campare the password pass into the req.body.password match with the hash password
 			if(bcrypt.compareSync(req.body.password, foundUser.password)){
@@ -72,15 +70,14 @@ router.post('/register', async (req,res, next)=>{
 
 router.delete('/:id', async (req,res,next)=>{
 	try{
-		console.log('hit the delete router');
-		console.log('req.params.id', req.params.id);
+	
 		const userToBeRemoved = await User.findById(req.params.id);
 		
 		if (userToBeRemoved){
-			console.log('foundUser to be removed');
+	
 			// campare the password pass into the req.body.password match with the hash password
 			if(bcrypt.compareSync(req.body.password, userToBeRemoved.password)){
-				console.log(' same password');
+				
 				const removedUser = await User.findByIdAndRemove(userToBeRemoved._id)
 
 				res.json({
