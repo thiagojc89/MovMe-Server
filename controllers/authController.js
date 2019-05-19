@@ -87,6 +87,47 @@ router.delete('/:id', async (req,res,next)=>{
 			}
 			else{
 				res.json({
+		        	status: 300,
+		        	data: 'not the same password'
+		      	});
+			}
+		}
+		else{
+			res.json({
+		        status: 300,
+		        data: 'user not found'
+		    });
+		}
+	}
+	catch(err){
+		next(err)
+	}	
+});
+
+router.put('/:id', async (req,res,next)=>{
+	try{
+		
+		const userToBeEdit = await User.findById(req.params.id);
+		
+		if (userToBeEdit){
+	
+			const userNewInfo = {}
+			userNewInfo.firstName = req.body.firstName
+			userNewInfo.lastName = req.body.lastName
+			userNewInfo.email = req.body.email
+
+			// campare the password pass into the req.body.password match with the hash password
+			if(bcrypt.compareSync(req.body.password, userToBeEdit.password)){
+				
+				const updatedUser = await User.findByIdAndUpdate(userToBeEdit._id , userNewInfo)
+	
+				res.json({
+		        	status: 200,
+		        	data: updatedUser
+		      	});
+			}
+			else{
+				res.json({
 		        	status: 200,
 		        	data: 'not the same password'
 		      	});
